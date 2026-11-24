@@ -5,7 +5,7 @@
     "github": {
       "VIctory": {
         "commits_24h": 50,
-        "stars": 11075,
+        "stars": 11074,
         "pushed_at": "2026-11-24T21:37:26Z",
         "latest_commit": "README: status of 2026-11-24"
       },
@@ -16,15 +16,15 @@
         "latest_commit": "CI: mark PRs idle for 3 days stale and close them after a week"
       }
     },
-    "timestamp": "2026-11-24T21:55:57.679558+00:00"
+    "timestamp": "2026-11-24T21:56:52.473146+00:00"
   },
   "analysis": {
     "current_leader": "victory-fork",
     "leader_stage": "Stage 6 of 7: In-game",
     "leader_score": 85.0,
     "most_active_today": "VIctory",
-    "ai_summary": "The unofficial GTA VI PC port effort continues to advance rapidly, with victory-fork leading the pack at Stage 6 by rendering the first gameplay scene with character models, textures, and sunlit surfaces at low frame rates. Core repositories like VIctory and XCL maintain high commit velocities with over 50 daily commits each, while downstream efforts like AnyXboxX have successfully logged extended test runs exceeding 13 minutes.",
-    "prediction": "victory-fork and upstream VIctory are projected to achieve stable basic playable loops within the next few months as shadow lighting bugs and device-loss stability issues are resolved.",
+    "ai_summary": "The unofficial GTA VI PC port race continues to advance at Stage 6, with victory-fork maintaining its lead by rendering the first gameplay scene with character models, textures, and sunlit surfaces. Upstream core repositories like VIctory and XCL maintain high commit velocities exceeding 50 daily commits each, while downstream efforts such as AnyXboxX and private builds like omonkey achieve stable test runs exceeding 13 minutes.",
+    "prediction": "victory-fork and upstream project VIctory are projected to resolve shadow lighting anomalies and achieve a stable basic playable loop within the upcoming months.",
     "leaderboard": [
       {
         "rank": 1,
@@ -74,6 +74,28 @@
       },
       {
         "rank": 3,
+        "name": "omonkey",
+        "stage": "Stage 6 of 7: In-game",
+        "progress_pct": 80.0,
+        "highest_achievement": "Private build running at ~5 FPS in the opening prison scene with slow character walkability.",
+        "work_today_score": 88,
+        "work_today_note": "Observed via PortWatch live streams executing initial prison scene navigation.",
+        "works": [
+          "Prison scene world execution",
+          "Slow player movement in-engine"
+        ],
+        "known_issues": [
+          "Closed-source private build unavailable for independent testing",
+          "Initial performance bottlenecks"
+        ],
+        "remaining_stages": [
+          "Public Release Integration",
+          "Frame Rate Optimization",
+          "Stable Playable Loop"
+        ]
+      },
+      {
+        "rank": 4,
         "name": "VIctory",
         "stage": "Stage 6 of 7: In-game",
         "progress_pct": 78.0,
@@ -96,7 +118,7 @@
         ]
       },
       {
-        "rank": 4,
+        "rank": 5,
         "name": "five-star-recomp",
         "stage": "Stage 5 of 7: Recognisable picture",
         "progress_pct": 65.0,
@@ -114,28 +136,6 @@
         "remaining_stages": [
           "3D World Cutscene Rendering",
           "In-Game Transition",
-          "Stable Playable Loop"
-        ]
-      },
-      {
-        "rank": 5,
-        "name": "XCL",
-        "stage": "Stage 5 of 7: Recognisable picture",
-        "progress_pct": 62.0,
-        "highest_achievement": "Rendered game menus and settings at a steady 30 frames per second using Xbox Series compatibility layers.",
-        "work_today_score": 85,
-        "work_today_note": "Pushed 50 commits implementing CI automation and stale PR cleanup workflows.",
-        "works": [
-          "Menu and settings interface rendering",
-          "Steady 30 FPS UI handling",
-          "Automated CI build pipelines"
-        ],
-        "known_issues": [
-          "Gameplay loop not yet reached on main branch"
-        ],
-        "remaining_stages": [
-          "Gameplay Scene Ingestion",
-          "World Buffer Integration",
           "Stable Playable Loop"
         ]
       }
@@ -175,7 +175,17 @@
         "five-star-recomp": 65.0,
         "XCL": 62.0
       }
+    },
+    {
+      "time": "21:57 UTC",
+      "scores": {
+        "victory-fork": 85.0,
+        "AnyXboxX": 82.0,
+        "omonkey": 80.0,
+        "VIctory": 78.0,
+        "five-star-recomp": 65.0
+      }
     }
   ],
-  "last_updated": "2026-11-24T21:56:01.821852+00:00"
+  "last_updated": "2026-11-24T21:57:52.465879+00:00"
 }
