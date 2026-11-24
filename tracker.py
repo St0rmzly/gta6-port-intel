@@ -2,9 +2,11 @@ import os
 import re
 import json
 import urllib.request
+import urllib.error
 from datetime import datetime, timezone, timedelta
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip()
 DISCORD_WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "").strip()
 DATA_FILE = "data.json"
@@ -78,7 +80,7 @@ def analyze_all_sources(sources, old_data):
             "news_highlights": [{"source": "System", "headline": "Awaiting valid Gemini API Key in GitHub Secrets"}]
         }
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
     prompt = f"""
     You are an analytical tracker monitoring the entire unofficial GTA VI PC port / Xbox compatibility race.
     Analyze the live data scraped from PortWatch VI (portwatch-vi.xyz), vuyp.github.io/gta6-pc-race, GitHub daily work counts, and Reddit.
@@ -123,20 +125,24 @@ def analyze_all_sources(sources, old_data):
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"responseMimeType": "application/json", "temperature": 0.25}
     }
-    
+
     req = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json"}
     )
-    
+
     try:
         with urllib.request.urlopen(req, timeout=35) as resp:
             res = json.loads(resp.read().decode("utf-8"))
             return json.loads(res["candidates"][0]["content"]["parts"][0]["text"])
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", errors="ignore")
+        print(f"Gemini API request failed (model={GEMINI_MODEL}): {e} - {body}")
+        raise
     except Exception as e:
         print(f"Gemini API request failed: {e}")
-        raise e
+        raise
 
 def send_discord_alert(new_data, old_data):
     if not DISCORD_WEBHOOK:
@@ -146,12 +152,12 @@ def send_discord_alert(new_data, old_data):
 if __name__ == "__main__":
     print("Starting GTA VI Port Intel Sync...")
     github_data = get_daily_github_work()
-    
+
     sources = {
         "github": github_data,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
-    
+
     old_data = {}
     if os.path.exists(DATA_FILE):
         try:
@@ -159,16 +165,16 @@ if __name__ == "__main__":
                 old_data = json.load(f)
         except Exception:
             pass
-            
+
     print("Running Gemini analysis...")
     analysis = analyze_all_sources(sources, old_data)
-    
+
     output = {
         "sources": sources,
         "analysis": analysis,
         "last_updated": datetime.now(timezone.utc).isoformat()
     }
-    
+
     with open(DATA_FILE, "w") as f:
         json.dump(output, f, indent=2)
     print("Successfully updated data.json!")
