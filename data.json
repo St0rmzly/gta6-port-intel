@@ -5,37 +5,35 @@
     "github": {
       "VIctory": {
         "commits_24h": 50,
-        "stars": 11056,
+        "stars": 11075,
         "pushed_at": "2026-11-24T21:37:26Z",
         "latest_commit": "README: status of 2026-11-24"
       },
       "XCL": {
         "commits_24h": 50,
-        "stars": 7726,
+        "stars": 7729,
         "pushed_at": "2026-11-24T21:38:17Z",
         "latest_commit": "CI: mark PRs idle for 3 days stale and close them after a week"
       }
     },
-    "timestamp": "2026-11-24T21:50:14.473300+00:00"
+    "timestamp": "2026-11-24T21:55:57.679558+00:00"
   },
   "analysis": {
     "current_leader": "victory-fork",
     "leader_stage": "Stage 6 of 7: In-game",
+    "leader_score": 85.0,
     "most_active_today": "VIctory",
-    "ai_summary": "The unofficial GTA VI PC port race has accelerated significantly, with victory-fork seizing the lead at Stage 6 (In-game) by rendering the world with textures, sky, and sunlit surfaces at 2.5 to 4 frames per second. High commit velocities across core repositories like VIctory and XCL continue to push pipeline stability, while private builds like omonkey and CGBJ demonstrate early in-game traversability.",
-    "prediction": "victory-fork and upstream VIctory are positioned to achieve functional basic gameplay loops first, likely within Q1/Q2 2027, provided frame-rate bottlenecks and unlit shadow bugs are successfully bypassed.",
+    "ai_summary": "The unofficial GTA VI PC port effort continues to advance rapidly, with victory-fork leading the pack at Stage 6 by rendering the first gameplay scene with character models, textures, and sunlit surfaces at low frame rates. Core repositories like VIctory and XCL maintain high commit velocities with over 50 daily commits each, while downstream efforts like AnyXboxX have successfully logged extended test runs exceeding 13 minutes.",
+    "prediction": "victory-fork and upstream VIctory are projected to achieve stable basic playable loops within the next few months as shadow lighting bugs and device-loss stability issues are resolved.",
     "leaderboard": [
       {
         "rank": 1,
         "name": "victory-fork",
         "stage": "Stage 6 of 7: In-game",
-        "progress_pct": 85,
-        "boot_pct": 100,
-        "memory_pct": 85,
-        "render_pct": 70,
-        "highest_achievement": "Rendered the first gameplay scene with characters, textures, sky, and sunlit surfaces with functional HUD and controller input.",
+        "progress_pct": 85.0,
+        "highest_achievement": "Rendered first gameplay scene with characters, textures, sky, and sunlit surfaces with working HUD and controller input.",
         "work_today_score": 95,
-        "work_today_note": "Pushed world rendering forward, achieving playable scenes and documented live stream telemetry on RTX 4070 hardware.",
+        "work_today_note": "Pushed world rendering forward with live-streamed ray-traced lighting verification on an RTX 4070.",
         "works": [
           "First gameplay scene rendering",
           "HUD and pause menu integration",
@@ -55,13 +53,10 @@
         "rank": 2,
         "name": "AnyXboxX",
         "stage": "Stage 6 of 7: In-game",
-        "progress_pct": 82,
-        "boot_pct": 100,
-        "memory_pct": 80,
-        "render_pct": 65,
+        "progress_pct": 82.0,
         "highest_achievement": "Successfully ran the game via victory-fork reaching up to 5.4 FPS and maintaining sessions for over 13-21 minutes.",
         "work_today_score": 90,
-        "work_today_note": "Logged successful extended test sessions and multi-machine cross-verification notes.",
+        "work_today_note": "Logged extended stability sessions and multi-machine cross-verification notes.",
         "works": [
           "Extended stability sessions (>13 mins)",
           "World streaming via victory-fork",
@@ -81,13 +76,10 @@
         "rank": 3,
         "name": "VIctory",
         "stage": "Stage 6 of 7: In-game",
-        "progress_pct": 78,
-        "boot_pct": 100,
-        "memory_pct": 75,
-        "render_pct": 60,
+        "progress_pct": 78.0,
         "highest_achievement": "Ran Xbox code natively on Windows and Linux via Proton, maintaining world uptime for up to 8 minutes with geometry visible.",
         "work_today_score": 92,
-        "work_today_note": "Logged 50 commits focusing on state machine stability and documentation updates.",
+        "work_today_note": "Logged 50 commits focusing on state machine stability and upstream infrastructure.",
         "works": [
           "Native Xbox code execution on Windows/Linux",
           "Debug view geometry rendering",
@@ -107,10 +99,7 @@
         "rank": 4,
         "name": "five-star-recomp",
         "stage": "Stage 5 of 7: Recognisable picture",
-        "progress_pct": 65,
-        "boot_pct": 90,
-        "memory_pct": 60,
-        "render_pct": 45,
+        "progress_pct": 65.0,
         "highest_achievement": "Loaded story mode and played opening cutscene art, credit cards, dialogue, and audio at a steady 30 frames per second.",
         "work_today_score": 80,
         "work_today_note": "Maintained steady toolchain updates for recompilation pipelines.",
@@ -132,10 +121,7 @@
         "rank": 5,
         "name": "XCL",
         "stage": "Stage 5 of 7: Recognisable picture",
-        "progress_pct": 62,
-        "boot_pct": 90,
-        "memory_pct": 55,
-        "render_pct": 40,
+        "progress_pct": 62.0,
         "highest_achievement": "Rendered game menus and settings at a steady 30 frames per second using Xbox Series compatibility layers.",
         "work_today_score": 85,
         "work_today_note": "Pushed 50 commits implementing CI automation and stale PR cleanup workflows.",
@@ -179,7 +165,17 @@
         "five-star-recomp": 65,
         "XCL": 62
       }
+    },
+    {
+      "time": "21:56 UTC",
+      "scores": {
+        "victory-fork": 85.0,
+        "AnyXboxX": 82.0,
+        "VIctory": 78.0,
+        "five-star-recomp": 65.0,
+        "XCL": 62.0
+      }
     }
   ],
-  "last_updated": "2026-11-24T21:51:15.033123+00:00"
+  "last_updated": "2026-11-24T21:56:01.821852+00:00"
 }
