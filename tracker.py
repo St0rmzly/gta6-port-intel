@@ -60,7 +60,7 @@ def get_daily_github_work():
     return work_summary
 
 def analyze_all_sources(sources, old_data):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
     prompt = f"""
     You are an analytical tracker monitoring the entire unofficial GTA VI PC port / Xbox compatibility race.
     Analyze the live data scraped from PortWatch VI (portwatch-vi.xyz), vuyp.github.io/gta6-pc-race, GitHub daily work counts, and Reddit.
