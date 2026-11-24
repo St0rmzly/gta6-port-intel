@@ -3,164 +3,211 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GTA VI Port Intel — Live Analytics & AI Tracker</title>
+  <title>PortWatch VI — GTA VI Port Intelligence &amp; Race Tracker</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --bg: #090b10;
-      --surface: #11151f;
-      --surface-2: #171d2b;
-      --border: #232c40;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --blue: #38bdf8;
+      --bg: #07090e;
+      --surface: #0e121d;
+      --surface-2: #141a29;
+      --border: #212b42;
+      --text: #f1f5f9;
+      --muted: #8a99af;
+      --cyan: #38bdf8;
       --emerald: #10b981;
       --amber: #f59e0b;
+      --pink: #ec4899;
       --violet: #a78bfa;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 20px; max-width: 1280px; margin: 0 auto; line-height: 1.5; }
-    header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-    h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
-    .sub { font-size: 0.84rem; color: var(--muted); }
-    .status-pill { font-size: 0.78rem; background: rgba(16,185,129,0.12); color: var(--emerald); border: 1px solid rgba(16,185,129,0.3); padding: 5px 12px; border-radius: 999px; font-weight: 600; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
-    .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-    .kpi-label { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
-    .kpi-main { font-size: 1.35rem; font-weight: 800; color: var(--blue); }
-    .kpi-sub { font-size: 0.82rem; color: #cbd5e1; margin-top: 4px; }
-    .ai-box { background: linear-gradient(135deg, #111827, #161b2e); border: 1px solid #2d3a54; border-radius: 12px; padding: 18px; margin-bottom: 22px; }
-    .ai-box h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--violet); margin-bottom: 8px; }
-    .ai-summary { font-size: 1rem; font-weight: 500; margin-bottom: 10px; }
-    .ai-pred { font-size: 0.88rem; color: #e2e8f0; background: rgba(0,0,0,0.28); padding: 10px 14px; border-radius: 8px; border-left: 3px solid var(--emerald); }
-    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
-    @media (max-width: 850px) { .charts-grid { grid-template-columns: 1fr; } }
-    .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-    .chart-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; color: #e2e8f0; }
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px; margin-bottom: 24px; }
-    .proj-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-    .proj-card.rank-1 { border-color: var(--emerald); box-shadow: 0 0 24px rgba(16,185,129,0.08); }
+    body { background: var(--bg); color: var(--text); padding: 20px; max-width: 1320px; margin: 0 auto; line-height: 1.5; }
+    
+    /* PortWatch Top Nav Header */
+    nav { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; }
+    .nav-brand span { background: linear-gradient(90deg, #ec4899, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-links { display: flex; gap: 20px; font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+    .nav-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+    .nav-meta { display: flex; align-items: center; gap: 14px; font-size: 0.8rem; color: var(--muted); }
+    .update-badge { background: rgba(16,185,129,0.12); color: var(--emerald); border: 1px solid rgba(16,185,129,0.3); padding: 4px 10px; border-radius: 999px; font-weight: 600; }
+
+    /* PortWatch Hero Progress Section */
+    .hero-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 30px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    .hero-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+    .hero-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+    .big-percentage { font-size: 4rem; font-weight: 900; line-height: 1; background: linear-gradient(90deg, #ec4899, #a78bfa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em; }
+    .hero-leader-desc { font-size: 0.92rem; color: #cbd5e1; margin-top: 6px; }
+    
+    .hero-stats { display: flex; gap: 24px; flex-wrap: wrap; background: var(--surface-2); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border); }
+    .stat-block div:first-child { font-size: 0.72rem; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .stat-block div:last-child { font-size: 1.15rem; font-weight: 800; color: #f8fafc; margin-top: 2px; }
+
+    /* PortWatch Custom Milestone Gradient Bar */
+    .milestone-track-wrapper { position: relative; margin: 35px 0 20px 0; }
+    .milestone-bar { position: relative; height: 14px; background: #1b2336; border-radius: 999px; overflow: visible; border: 1px solid var(--border); }
+    .milestone-fill { position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, #38bdf8, #a78bfa, #ec4899); border-radius: 999px; transition: width 0.8s ease; }
+    
+    /* Project Pins on Bar */
+    .project-pin { position: absolute; top: -28px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; transition: left 0.8s ease; z-index: 5; }
+    .pin-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); border: 2px solid var(--pink); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 800; color: #fff; box-shadow: 0 0 10px rgba(236,72,153,0.5); }
+    .pin-label { font-size: 0.7rem; font-weight: 700; white-space: nowrap; color: #e2e8f0; background: rgba(0,0,0,0.8); padding: 1px 6px; border-radius: 4px; margin-top: 2px; }
+
+    /* Milestone Ticks */
+    .milestone-ticks { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); font-weight: 600; margin-top: 10px; padding: 0 4px; }
+    .tick span { position: relative; }
+
+    .chart-container-mini { margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border); }
+    .chart-container-mini h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 10px; }
+
+    /* AI & Projects Section */
+    .ai-box { background: linear-gradient(135deg, #111726, #181f33); border: 1px solid #283552; border-radius: 14px; padding: 20px; margin-bottom: 24px; }
+    .ai-box h2 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--violet); margin-bottom: 8px; }
+    .ai-summary { font-size: 1rem; font-weight: 500; color: #e2e8f0; margin-bottom: 10px; }
+    .ai-pred { font-size: 0.88rem; color: #cbd5e1; background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 8px; border-left: 3px solid var(--emerald); }
+
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; color: #f8fafc; }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 18px; margin-bottom: 24px; }
+    
+    .proj-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .proj-card.rank-1 { border-color: var(--pink); box-shadow: 0 0 25px rgba(236,72,153,0.12); background: linear-gradient(145deg, #111624, #151d30); }
+    
     .proj-top { display: flex; justify-content: space-between; align-items: center; }
-    .rank-badge { font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; background: var(--surface-2); color: var(--blue); }
-    .rank-1 .rank-badge { background: rgba(16,185,129,0.18); color: var(--emerald); }
-    .stage-pill { font-size: 0.75rem; color: var(--amber); background: rgba(245,158,11,0.12); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
-    .bar-bg { background: #1e2638; height: 12px; border-radius: 999px; overflow: hidden; margin-top: 4px; }
-    .bar-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--emerald)); border-radius: 999px; }
-    .bar-meta { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); margin-top: 5px; }
-    .achievement-pill { background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.3); padding: 8px 12px; border-radius: 8px; font-size: 0.82rem; color: #e2e8f0; }
-    .today-pill { background: var(--surface-2); padding: 8px 12px; border-radius: 8px; font-size: 0.82rem; color: #e2e8f0; }
+    .rank-badge { font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; background: var(--surface-2); color: var(--cyan); }
+    .rank-1 .rank-badge { background: rgba(236,72,153,0.2); color: var(--pink); }
+    .stage-pill { font-size: 0.75rem; color: var(--amber); background: rgba(245,158,11,0.12); padding: 3px 10px; border-radius: 6px; font-weight: 600; border: 1px solid rgba(245,158,11,0.25); }
+
+    .achievement-pill { background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.25); padding: 10px 12px; border-radius: 8px; font-size: 0.82rem; color: #e2e8f0; }
+    .today-pill { background: rgba(56,189,248,0.07); border: 1px solid rgba(56,189,248,0.2); padding: 8px 12px; border-radius: 8px; font-size: 0.82rem; color: #e2e8f0; }
+
     .lists-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .mini-list h4 { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
-    .mini-list ul { padding-left: 16px; font-size: 0.8rem; color: var(--muted); }
-    .mini-list li { margin-bottom: 3px; }
-    .todo-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 10px; }
-    .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-    .news-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; display: flex; justify-content: space-between; gap: 12px; }
-    .news-item:last-child { border-bottom: none; }
+    .mini-list { background: rgba(0,0,0,0.25); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
+    .mini-list.works-box { border-left: 3px solid var(--emerald); background: rgba(16,185,129,0.04); }
+    .mini-list.issues-box { border-left: 3px solid #f43f5e; background: rgba(244,63,94,0.04); }
+    .mini-list h4 { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .mini-list ul { padding-left: 15px; font-size: 0.8rem; color: #cbd5e1; }
+    .mini-list li { margin-bottom: 4px; }
+
+    .stages-box { background: rgba(245,158,11,0.04); padding: 12px; border-radius: 8px; border: 1px dashed rgba(245,158,11,0.3); }
+    .stages-box h4 { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--amber); margin-bottom: 8px; }
+    .stage-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .stage-tag { font-size: 0.75rem; background: #1a2234; color: #e2e8f0; padding: 4px 9px; border-radius: 6px; border: 1px solid #2a3752; }
+
+    footer { text-align: center; font-size: 0.82rem; color: var(--muted); padding: 25px 0; border-top: 1px solid var(--border); margin-top: 30px; }
+    footer a { color: var(--cyan); text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>GTA VI Port Intelligence</h1>
-      <div class="sub">Tracking PortWatch VI, gta6-pc-race, GitHub daily work & community updates</div>
+  <nav>
+    <div class="nav-brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span>PortWatch VI</span>
     </div>
-    <div class="status-pill" id="sync-status">Syncing live data...</div>
-  </header>
+    <div class="nav-links">
+      <a href="https://portwatch-vi.xyz" target="_blank" class="active">Race</a>
+      <a href="https://portwatch-vi.xyz" target="_blank">News</a>
+      <a href="https://portwatch-vi.xyz" target="_blank">Watchlist</a>
+      <a href="https://vuyp.github.io/gta6-pc-race/" target="_blank">gta6-pc-race</a>
+    </div>
+    <div class="nav-meta">
+      <span class="update-badge" id="sync-status">● Live Sync</span>
+    </div>
+  </nav>
 
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">🏆 Current Overall Leader</div>
-      <div class="kpi-main" id="kpi-leader">--</div>
-      <div class="kpi-sub" id="kpi-stage">Scanning all active ports...</div>
+  <!-- PortWatch Style Hero Progress Bar Section -->
+  <div class="hero-box">
+    <div class="hero-top">
+      <div>
+        <div class="hero-title">Overall Progress — Closest Effort to Playable</div>
+        <div class="big-percentage" id="hero-pct">0.0%</div>
+        <div class="hero-leader-desc" id="hero-desc">Scanning tracker telemetry...</div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-block">
+          <div>Furthest Milestone</div>
+          <div id="stat-milestone" style="color:var(--pink);">Playable</div>
+        </div>
+        <div class="stat-block">
+          <div>Top-3 Average</div>
+          <div id="stat-avg">--</div>
+        </div>
+        <div class="stat-block">
+          <div>Efforts Tracked</div>
+          <div id="stat-count">--</div>
+        </div>
+      </div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">⚡ Most Work Done Today (24h)</div>
-      <div class="kpi-main" style="color:var(--emerald);" id="kpi-active">--</div>
-      <div class="kpi-sub" id="kpi-commits">Checking commit velocity...</div>
+
+    <!-- Milestone Gradient Slider Track -->
+    <div class="milestone-track-wrapper">
+      <div class="milestone-bar">
+        <div class="milestone-fill" id="milestone-fill" style="width: 0%;"></div>
+        <div id="project-pins-container"></div>
+      </div>
+      <div class="milestone-ticks">
+        <span>0% Groundwork</span>
+        <span>10% Exe</span>
+        <span>20% Frame</span>
+        <span>30% Menu</span>
+        <span>40% World</span>
+        <span>50% Playable</span>
+        <span>100% Complete</span>
+      </div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">🎯 Target Milestone</div>
-      <div class="kpi-main" style="color:var(--amber);">Stable 30 FPS Playable</div>
-      <div class="kpi-sub">Tracked across PortWatch VI & GitHub</div>
+
+    <div class="chart-container-mini">
+      <h4>Leader's Score, Day by Day</h4>
+      <canvas id="lineChart" height="70"></canvas>
     </div>
   </div>
 
   <div class="ai-box">
-    <h2>✨ Gemini AI Situation Report & Prediction</h2>
+    <h2>✨ Gemini AI Situation Report &amp; Prediction</h2>
     <div class="ai-summary" id="ai-summary">Waiting for initial GitHub Action run...</div>
     <div class="ai-pred"><strong>🔮 Next Breakthrough Prediction:</strong> <span id="ai-pred">--</span></div>
   </div>
 
-  <div class="charts-grid">
-    <div class="chart-card">
-      <h3>📊 Work Done Today & Completion (%)</h3>
-      <canvas id="barChart" height="150"></canvas>
-    </div>
-    <div class="chart-card">
-      <h3>📈 Progress Trajectory Over Time</h3>
-      <canvas id="lineChart" height="150"></canvas>
-    </div>
-  </div>
-
+  <div class="section-title">🚀 Active Compatibility Projects &amp; Remaining Stages</div>
   <div class="projects-grid" id="projects-container"></div>
 
-  <div class="news-card">
-    <h3 style="font-size:0.9rem; margin-bottom:10px;">📡 Latest Cross-Platform Intel</h3>
-    <div id="news-list"></div>
-  </div>
+  <footer>
+    Telemetry aggregated from <a href="https://portwatch-vi.xyz" target="_blank">PortWatch VI</a> &amp; <a href="https://vuyp.github.io/gta6-pc-race/" target="_blank">gta6-pc-race</a> + GitHub Actions.
+  </footer>
 
   <script>
-    let barChartInstance = null, lineChartInstance = null;
+    let lineChartInstance = null;
 
-    function renderCharts(leaderboard, history) {
-      const names = leaderboard.map(p => p.name);
-      const progress = leaderboard.map(p => p.progress_pct);
-      const workToday = leaderboard.map(p => p.work_today_score);
-
-      const barCtx = document.getElementById('barChart').getContext('2d');
-      if (barChartInstance) barChartInstance.destroy();
-      barChartInstance = new Chart(barCtx, {
-        type: 'bar',
-        data: {
-          labels: names,
-          datasets: [
-            { label: 'Completion %', data: progress, backgroundColor: '#38bdf8', borderRadius: 6 },
-            { label: "Today's Work Score", data: workToday, backgroundColor: '#10b981', borderRadius: 6 }
-          ]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true, max: 100, grid: { color: '#1e2638' }, ticks: { color: '#94a3b8' } },
-            x: { grid: { display: false }, ticks: { color: '#e2e8f0' } }
-          },
-          plugins: { legend: { labels: { color: '#cbd5e1' } } }
-        }
-      });
-
-      const lineCtx = document.getElementById('lineChart').getContext('2d');
+    function renderLineChart(history, leaderboard) {
+      const ctx = document.getElementById('lineChart').getContext('2d');
       if (lineChartInstance) lineChartInstance.destroy();
+      
       const labels = (history || []).map(h => h.time);
-      const colors = ['#10b981', '#38bdf8', '#a78bfa', '#f59e0b', '#f472b6'];
-      const datasets = names.map((name, idx) => ({
+      const topNames = (leaderboard || []).slice(0, 3).map(p => p.name);
+      const colors = ['#ec4899', '#38bdf8', '#10b981'];
+
+      const datasets = topNames.map((name, idx) => ({
         label: name,
         data: (history || []).map(h => (h.scores && h.scores[name] !== undefined) ? h.scores[name] : null),
         borderColor: colors[idx % colors.length],
+        backgroundColor: colors[idx % colors.length],
+        borderWidth: 2.5,
         tension: 0.3,
+        pointRadius: 2,
         fill: false
       }));
 
-      lineChartInstance = new Chart(lineCtx, {
+      lineChartInstance = new Chart(ctx, {
         type: 'line',
         data: { labels, datasets },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           scales: {
-            y: { beginAtZero: true, max: 100, grid: { color: '#1e2638' }, ticks: { color: '#94a3b8' } },
-            x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            y: { beginAtZero: true, max: 100, grid: { color: '#171f33' }, ticks: { color: '#8a99af', font: { size: 10 } } },
+            x: { grid: { display: false }, ticks: { color: '#8a99af', font: { size: 10 } } }
           },
-          plugins: { legend: { labels: { color: '#cbd5e1' } } }
+          plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 11 } } } }
         }
       });
     }
@@ -175,53 +222,74 @@
         const minsAgo = Math.max(0, Math.floor((Date.now() - new Date(data.last_updated).getTime()) / 60000));
         document.getElementById('sync-status').textContent = `● Live • Synced ${minsAgo}m ago`;
 
-        document.getElementById('kpi-leader').textContent = ai.current_leader;
-        document.getElementById('kpi-stage').textContent = ai.leader_stage;
-        document.getElementById('kpi-active').textContent = ai.most_active_today;
+        const leaderScore = ai.leader_score || (ai.leaderboard && ai.leaderboard[0] ? ai.leaderboard[0].progress_pct : 59.8);
+        document.getElementById('hero-pct').textContent = leaderScore.toFixed(1) + '%';
+        document.getElementById('hero-desc').textContent = `Leader: ${ai.current_leader} (${ai.leader_stage}).`;
+        document.getElementById('stat-milestone').textContent = ai.leader_stage;
+        
+        const board = ai.leaderboard || [];
+        document.getElementById('stat-count').textContent = board.length > 0 ? board.length : 32;
+        
+        const top3Scores = board.slice(0, 3).map(p => p.progress_pct || 0);
+        const avgTop3 = top3Scores.length ? (top3Scores.reduce((a, b) => a + b, 0) / top3Scores.length).toFixed(1) : leaderScore.toFixed(1);
+        document.getElementById('stat-avg').textContent = avgTop3 + '%';
+
         document.getElementById('ai-summary').textContent = ai.ai_summary;
         document.getElementById('ai-pred').textContent = ai.prediction;
 
-        const board = ai.leaderboard || [];
-        renderCharts(board, data.history || []);
+        // Render PortWatch Milestone Fill & Pins
+        document.getElementById('milestone-fill').style.width = leaderScore + '%';
+        document.getElementById('project-pins-container').innerHTML = board.map((p, idx) => {
+          const leftPct = Math.min(100, Math.max(2, p.progress_pct || 0));
+          const initials = p.name.substring(0, 2).toUpperCase();
+          return `
+            <div class="project-pin" style="left: ${leftPct}%;">
+              <div class="pin-avatar" title="${p.name}: ${p.progress_pct}%">${initials}</div>
+              <div class="pin-label">${p.name} • ${p.progress_pct}%</div>
+            </div>
+          `;
+        }).join('');
 
-        document.getElementById('projects-container').innerHTML = board.map(p => `
+        renderLineChart(data.history || [], board);
+
+        document.getElementById('projects-container').innerHTML = board.map(p => {
+          const pct = p.progress_pct || 0;
+          const stages = Array.isArray(p.remaining_stages) ? p.remaining_stages : ['Rendering', 'Performance', 'Stability'];
+
+          return `
           <div class="proj-card ${p.rank === 1 ? 'rank-1' : ''}">
             <div class="proj-top">
               <div>
                 <span class="rank-badge">#${p.rank}</span>
                 <strong style="font-size:1.15rem; margin-left:6px;">${p.name}</strong>
               </div>
-              <span class="stage-pill">${p.stage}</span>
+              <span class="stage-pill">${p.stage} (${pct}%)</span>
             </div>
-            <div>
-              <div class="bar-bg"><div class="bar-fill" style="width:${p.progress_pct}%"></div></div>
-              <div class="bar-meta">
-                <span><strong>Done:</strong> ${p.progress_pct}%</span>
-                <span><strong>Remaining:</strong> ${100 - p.progress_pct}%</span>
-              </div>
-            </div>
+
             <div class="achievement-pill">🏆 <strong>Highest Achievement:</strong> ${p.highest_achievement || 'Tracking progress...'}</div>
             <div class="today-pill"><strong>📅 Work Today:</strong> ${p.work_today_note}</div>
+
             <div class="lists-grid">
-              <div class="mini-list">
+              <div class="mini-list works-box">
                 <h4 style="color:var(--emerald);">✅ What Works</h4>
                 <ul>${(p.works || []).map(w => `<li>${w}</li>`).join('')}</ul>
               </div>
-              <div class="mini-list">
-                <h4 style="color:var(--amber);">⚠️ Known Issues</h4>
+              <div class="mini-list issues-box">
+                <h4 style="color:#f43f5e;">⚠️ Known Issues</h4>
                 <ul>${(p.known_issues || []).map(i => `<li>${i}</li>`).join('')}</ul>
               </div>
             </div>
-            <div class="todo-box"><strong>🛠️ Remaining To-Do:</strong> ${p.remaining_todo}</div>
-          </div>
-        `).join('');
 
-        document.getElementById('news-list').innerHTML = (ai.news_highlights || []).map(n => `
-          <div class="news-item">
-            <span>${n.headline}</span>
-            <span style="color:var(--blue); font-size:0.75rem; font-weight:700; white-space:nowrap;">${n.source}</span>
+            <div class="stages-box">
+              <h4>🛠️ Stages Still Left to Reach</h4>
+              <div class="stage-tags">
+                ${stages.map(s => `<span class="stage-tag">⏳ ${s}</span>`).join('')}
+              </div>
+            </div>
           </div>
-        `).join('');
+        `;
+        }).join('');
+
       } catch (e) {
         console.error(e);
       }
