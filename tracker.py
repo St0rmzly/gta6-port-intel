@@ -72,9 +72,9 @@ def analyze_all_sources(sources, old_data):
     {json.dumps(old_data.get("analysis") if old_data else None)}
 
     Rules:
-    - Identify the TRUE current overall leader across ALL projects mentioned in the trackers (e.g., CGBJ, VIctory, AnyXboxX, XCL, Palmwave, etc. — whoever is actually #1, even if it's not VIctory or XCL).
-    - For EVERY project in the leaderboard, specify their "highest_achievement" (the biggest milestone they have successfully achieved so far, e.g., "Successfully booted main menu and rendered first gameplay frame", "Reached opening mission loading sequence").
-    - Return ONLY valid JSON matching this schema:
+- Identify the TRUE current overall leader across ALL projects mentioned in the trackers (e.g., CGBJ, VIctory, AnyXboxX, XCL, Palmwave, etc. — whoever is actually #1, even if it's not VIctory or XCL).
+- For EVERY project in the leaderboard, specify their "highest_achievement" (the biggest milestone they have successfully achieved so far, e.g., "Successfully booted main menu and rendered first gameplay frame", "Reached opening mission loading sequence").
+- Return ONLY valid JSON matching this schema:
     {{
       "current_leader": "Exact name of #1 leading project right now",
       "leader_stage": "Current milestone stage of leader",
@@ -115,4 +115,37 @@ def analyze_all_sources(sources, old_data):
         return json.loads(res["candidates"][0]["content"]["parts"][0]["text"])
 
 def send_discord_alert(new_data, old_data):
-    if not DISCORD_WEBHOOK_URL:
+    if not DISCORD_WEBHOOK:
+        return
+    # Placeholder for webhook payload if enabled later
+    pass
+
+if __name__ == "__main__":
+    print("Starting GTA VI Port Intel Sync...")
+    github_data = get_daily_github_work()
+    
+    sources = {
+        "github": github_data,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
+    
+    old_data = {}
+    if os.path.exists(DATA_FILE):
+        try:
+            with open(DATA_FILE, "r") as f:
+                old_data = json.load(f)
+        except Exception:
+            pass
+            
+    print("Running Gemini analysis...")
+    analysis = analyze_all_sources(sources, old_data)
+    
+    output = {
+        "sources": sources,
+        "analysis": analysis,
+        "last_updated": datetime.now(timezone.utc).isoformat()
+    }
+    
+    with open(DATA_FILE, "w") as f:
+        json.dump(output, f, indent=2)
+    print("Successfully updated data.json!")
