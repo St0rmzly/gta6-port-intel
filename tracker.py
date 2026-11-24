@@ -3,6 +3,7 @@ import re
 import json
 import urllib.request
 import urllib.error
+import time
 from datetime import datetime, timezone, timedelta
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
@@ -132,17 +133,31 @@ def analyze_all_sources(sources, old_data):
         headers={"Content-Type": "application/json"}
     )
 
-    try:
-        with urllib.request.urlopen(req, timeout=35) as resp:
-            res = json.loads(resp.read().decode("utf-8"))
-            return json.loads(res["candidates"][0]["content"]["parts"][0]["text"])
-    except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", errors="ignore")
-        print(f"Gemini API request failed (model={GEMINI_MODEL}): {e} - {body}")
-        raise
-    except Exception as e:
-        print(f"Gemini API request failed: {e}")
-        raise
+    retry_codes = {429, 500, 502, 503, 504}
+    delays = [5, 15, 30, 60]  # seconds to wait before each retry
+    for attempt in range(len(delays) + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                res = json.loads(resp.read().decode("utf-8"))
+                return json.loads(res["candidates"][0]["content"]["parts"][0]["text"])
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", errors="ignore")
+            print(f"Gemini API request failed (model={GEMINI_MODEL}, attempt {attempt + 1}): {e} - {body}")
+            if e.code in retry_codes and attempt < len(delays):
+                print(f"Retrying in {delays[attempt]}s...")
+                time.sleep(delays[attempt])
+                continue
+            raise
+        except (urllib.error.URLError, TimeoutError) as e:
+            print(f"Gemini API network error (attempt {attempt + 1}): {e}")
+            if attempt < len(delays):
+                print(f"Retrying in {delays[attempt]}s...")
+                time.sleep(delays[attempt])
+                continue
+            raise
+        except Exception as e:
+            print(f"Gemini API request failed: {e}")
+            raise
 
 def send_discord_alert(new_data, old_data):
     if not DISCORD_WEBHOOK:
