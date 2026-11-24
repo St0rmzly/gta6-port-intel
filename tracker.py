@@ -115,4 +115,4 @@ def analyze_all_sources(sources, old_data):
         return json.loads(res["candidates"][0]["content"]["parts"][0]["text"])
 
 def send_discord_alert(new_data, old_data):
-    if not DISCORD_WEB
+    if not DISCORD_WEBHOOK_URL:
