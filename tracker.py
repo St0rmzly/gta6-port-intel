@@ -18,7 +18,7 @@ TRACKED_REPOS = [
 ]
 
 def fetch_url(url, is_json=True):
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) GTA6-Intel/3.1"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) GTA6-Intel/3.2"}
     if GITHUB_TOKEN and "api.github.com" in url:
         headers["Authorization"] = f"Bearer {GITHUB_TOKEN}"
     req = urllib.request.Request(url, headers=headers)
@@ -29,6 +29,13 @@ def fetch_url(url, is_json=True):
     except Exception as e:
         print(f"Fetch error ({url}): {e}")
         return None
+
+def strip_html(html_text):
+    if not html_text:
+        return ""
+    clean = re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>", " ", html_text)
+    clean = re.sub(r"<[^>]+>", " ", clean)
+    return re.sub(r"\s+", " ", clean).strip()[:5500]
 
 def get_daily_github_work():
     now = datetime.now(timezone.utc)
@@ -70,12 +77,15 @@ def analyze_all_sources(sources, old_data):
                     "name": "VIctory",
                     "stage": "Booting",
                     "progress_pct": 45,
+                    "boot_pct": 70,
+                    "memory_pct": 40,
+                    "render_pct": 20,
                     "highest_achievement": "Initial codebase setup and compilation attempts",
                     "work_today_score": 50,
                     "work_today_note": "Awaiting active AI token sync",
                     "works": ["Repository active"],
                     "known_issues": ["Missing API Key secret"],
-                    "remaining_todo": "Add GEMINI_API_KEY to GitHub repo settings"
+                    "remaining_stages": ["Full Menu Render", "In-Game World Load", "Stable 30 FPS"]
                 }
             ],
             "news_highlights": [{"source": "System", "headline": "Awaiting valid Gemini API Key in GitHub Secrets"}]
@@ -84,7 +94,7 @@ def analyze_all_sources(sources, old_data):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
     prompt = f"""
     You are an analytical tracker monitoring the entire unofficial GTA VI PC port / Xbox compatibility race.
-    Analyze the live data scraped from PortWatch VI (portwatch-vi.xyz), vuyp.github.io/gta6-pc-race, GitHub daily work counts, and Reddit.
+    Prioritize and cross-reference the live & historical data scraped from PortWatch VI (https://portwatch-vi.xyz) and gta6-pc-race (https://vuyp.github.io/gta6-pc-race/) since they have the longest-running historical tracking data, alongside live GitHub commit velocity.
 
     SCRAPED SOURCES:
     {json.dumps(sources)}
@@ -93,34 +103,38 @@ def analyze_all_sources(sources, old_data):
     {json.dumps(old_data.get("analysis") if old_data else None)}
 
     Rules:
-- Identify the TRUE current overall leader across ALL projects mentioned in the trackers (e.g., CGBJ, VIctory, AnyXboxX, XCL, Palmwave, etc. — whoever is actually #1, even if it's not VIctory or XCL).
-- For EVERY project in the leaderboard, specify their "highest_achievement" (the biggest milestone they have successfully achieved so far, e.g., "Successfully booted main menu and rendered first gameplay frame", "Reached opening mission loading sequence").
-- Return ONLY valid JSON matching this schema:
+    - Rely heavily on the scraped text from PortWatch VI and vuyp.github.io/gta6-pc-race/ to accurately rank all active projects (e.g., CGBJ, VIctory, AnyXboxX, XCL, Palmwave, etc. — whoever is actually #1, even if it's not VIctory or XCL).
+    - For EVERY project in the leaderboard, provide realistic percentages (0-100) for overall progress AND three specific sub-progress bars: `boot_pct` (Core Boot & Init), `memory_pct` (Memory & Syscall Translation), and `render_pct` (Graphics & Shader Pipeline).
+    - List all `remaining_stages` (an array of exact milestone stages they still have left to reach, e.g. ["Title Screen", "Main Menu", "In-Game Rendering", "Audio & Input", "Stable 30 FPS"]).
+    - Return ONLY valid JSON matching this schema:
     {{
       "current_leader": "Exact name of #1 leading project right now",
       "leader_stage": "Current milestone stage of leader",
       "most_active_today": "Project doing the most work in the last 24 hours",
-      "ai_summary": "Clear 2-3 sentence executive summary of the entire race right now and what changed today",
+      "ai_summary": "Clear 2-3 sentence executive summary combining PortWatch VI, gta6-pc-race, and GitHub commit data",
       "prediction": "Concrete prediction on who will hit stable playable gameplay first and rough timeline/blockers",
       "leaderboard": [
         {{
           "rank": 1,
           "name": "Project Name",
-          "stage": "e.g., In-Game",
+          "stage": "Current Stage (e.g., Menu / In-Game)",
           "progress_pct": 68,
+          "boot_pct": 90,
+          "memory_pct": 65,
+          "render_pct": 45,
           "highest_achievement": "The single highest technical milestone they've pulled off so far",
           "work_today_score": 85,
           "work_today_note": "Summary of today's progress / commits",
-          "works": ["Item 1 that works", "Item 2 that works"],
-          "known_issues": ["Main crash/glitch 1"],
-          "remaining_todo": "What still needs to be built to reach stable 30 FPS"
+          "works": ["Specific feature/system 1 that works", "Specific feature/system 2 that works"],
+          "known_issues": ["Main crash/glitch 1", "Main blocker 2"],
+          "remaining_stages": ["Next Stage 1", "Next Stage 2", "Stable 30 FPS"]
         }}
       ],
       "news_highlights": [
-        {{"source": "PortWatch / GitHub", "headline": "Short factual update"}}
+        {{"source": "PortWatch VI / gta6-pc-race / GitHub", "headline": "Short factual update"}}
       ]
     }}
-    Include the top 4-5 active projects in "leaderboard" (making sure to prominently feature VIctory, XCL, and any project currently ahead of them).
+    Include the top 4-5 active projects in "leaderboard" (prominently featuring VIctory, XCL, and any project ahead of them).
     """
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
@@ -134,7 +148,7 @@ def analyze_all_sources(sources, old_data):
     )
 
     retry_codes = {429, 500, 502, 503, 504}
-    delays = [5, 15, 30, 60]  # seconds to wait before each retry
+    delays = [5, 15, 30, 60]
     for attempt in range(len(delays) + 1):
         try:
             with urllib.request.urlopen(req, timeout=60) as resp:
@@ -167,8 +181,14 @@ def send_discord_alert(new_data, old_data):
 if __name__ == "__main__":
     print("Starting GTA VI Port Intel Sync...")
     github_data = get_daily_github_work()
+    
+    print("Scraping PortWatch VI and gta6-pc-race...")
+    portwatch_raw = strip_html(fetch_url("https://portwatch-vi.xyz", is_json=False))
+    pc_race_raw = strip_html(fetch_url("https://vuyp.github.io/gta6-pc-race/", is_json=False))
 
     sources = {
+        "portwatch_vi_data": portwatch_raw or "Unavailable during this fetch",
+        "gta6_pc_race_data": pc_race_raw or "Unavailable during this fetch",
         "github": github_data,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
@@ -184,9 +204,17 @@ if __name__ == "__main__":
     print("Running Gemini analysis...")
     analysis = analyze_all_sources(sources, old_data)
 
+    # Maintain rolling history for the line chart
+    history = old_data.get("history", [])
+    now_label = datetime.now(timezone.utc).strftime("%H:%M UTC")
+    scores = {p["name"]: p["progress_pct"] for p in analysis.get("leaderboard", [])}
+    history.append({"time": now_label, "scores": scores})
+    history = history[-24:]  # Keep last 24 data points
+
     output = {
         "sources": sources,
         "analysis": analysis,
+        "history": history,
         "last_updated": datetime.now(timezone.utc).isoformat()
     }
 
