@@ -4,9 +4,9 @@ import json
 import urllib.request
 from datetime import datetime, timezone, timedelta
 
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
-DISCORD_WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "")
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+DISCORD_WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "").strip()
 DATA_FILE = "data.json"
 
 TRACKED_REPOS = [
@@ -26,13 +26,6 @@ def fetch_url(url, is_json=True):
     except Exception as e:
         print(f"Fetch error ({url}): {e}")
         return None
-
-def strip_html(html_text):
-    if not html_text:
-        return ""
-    clean = re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>", " ", html_text)
-    clean = re.sub(r"<[^>]+>", " ", clean)
-    return re.sub(r"\s+", " ", clean).strip()[:4500]
 
 def get_daily_github_work():
     now = datetime.now(timezone.utc)
@@ -60,6 +53,32 @@ def get_daily_github_work():
     return work_summary
 
 def analyze_all_sources(sources, old_data):
+    if not GEMINI_API_KEY:
+        print("ERROR: GEMINI_API_KEY environment variable is missing or empty!")
+        # Return fallback mock analysis structure so the site still populates instead of crashing 500
+        return {
+            "current_leader": "VIctory",
+            "leader_stage": "In-Development / Booting",
+            "most_active_today": "VIctory",
+            "ai_summary": "API Key not detected in GitHub Secrets. Please check your repository secrets configuration.",
+            "prediction": "Configure GEMINI_API_KEY in repository secrets to enable live AI analysis.",
+            "leaderboard": [
+                {
+                    "rank": 1,
+                    "name": "VIctory",
+                    "stage": "Booting",
+                    "progress_pct": 45,
+                    "highest_achievement": "Initial codebase setup and compilation attempts",
+                    "work_today_score": 50,
+                    "work_today_note": "Awaiting active AI token sync",
+                    "works": ["Repository active"],
+                    "known_issues": ["Missing API Key secret"],
+                    "remaining_todo": "Add GEMINI_API_KEY to GitHub repo settings"
+                }
+            ],
+            "news_highlights": [{"source": "System", "headline": "Awaiting valid Gemini API Key in GitHub Secrets"}]
+        }
+
     url = f"https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
     prompt = f"""
     You are an analytical tracker monitoring the entire unofficial GTA VI PC port / Xbox compatibility race.
@@ -109,15 +128,17 @@ def analyze_all_sources(sources, old_data):
         url,
         data=json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json"}
-    )
-    with urllib.request.urlopen(req, timeout=35) as resp:
-        res = json.loads(resp.read().decode("utf-8"))
-        return json.loads(res["candidates"][0]["content"]["parts"][0]["text"])
+    try:
+        with urllib.request.urlopen(req, timeout=35) as resp:
+            res = json.loads(resp.read().decode("utf-8"))
+            return json.loads(res["candidates"][0]["content"]["parts"][0]["text"])
+    except Exception as e:
+        print(f"Gemini API request failed: {e}")
+        raise e
 
 def send_discord_alert(new_data, old_data):
     if not DISCORD_WEBHOOK:
         return
-    # Placeholder for webhook payload if enabled later
     pass
 
 if __name__ == "__main__":
