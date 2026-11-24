@@ -55,7 +55,6 @@ def get_daily_github_work():
 def analyze_all_sources(sources, old_data):
     if not GEMINI_API_KEY:
         print("ERROR: GEMINI_API_KEY environment variable is missing or empty!")
-        # Return fallback mock analysis structure so the site still populates instead of crashing 500
         return {
             "current_leader": "VIctory",
             "leader_stage": "In-Development / Booting",
@@ -124,10 +123,13 @@ def analyze_all_sources(sources, old_data):
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"responseMimeType": "application/json", "temperature": 0.25}
     }
+    
     req = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json"}
+    )
+    
     try:
         with urllib.request.urlopen(req, timeout=35) as resp:
             res = json.loads(resp.read().decode("utf-8"))
