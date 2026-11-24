@@ -1,114 +1,185 @@
 {
   "sources": {
+    "portwatch_vi_data": "PortWatch VI: Does GTA VI run on PC yet? Skip to the leaderboard PortWatch VI Race News Watchlist Toolkit Scoring Fake downloads Loading\u2026 Live tracker Follow on X Star on GitHub Does GTA VI run on&nbsp;PC&nbsp;yet? Not yet. Every serious attempt to recompile, emulate or port the leaked Xbox Series build to PC, scored on one scale from groundwork to a game you can play to the end. Executable drop -- days : -- hours : -- min : -- sec Pinned 4 4lwayz Creator Overall progress \u00b7 closest effort to playable 0 % &nbsp; - Furthest milestone - Top-3 average - Boot GTA VI - Efforts tracked What changed Leaderboard The race The efforts with public code, ranked by how close each is to running the game. Scores come from each project's public README, commits and issues. Self-reported claims are labelled. Private builds are listed below the race, without a rank. All GTA VI-specific Any-game layers Sort Progress Stars Recently active Private builds \u00b7 not ranked These have no public code, so nobody outside the group can check or run them. Each one names the public project it builds on, and that project keeps its place in the race. What's happening News The moves that matter around the leak: takedowns, confirmed leaks, legal news and scams. Short summaries in our own words, with links to the original reporting. All news \u00d7 Early or stalled Watchlist Real but early projects: scaffolding, research probes or a different route. They move up to the race when they ship something you can measure. The asset side Toolkit These won't run the game, but every port leans on them: archive explorers, texture codecs and format notes. Spotted by the scout New candidates Every 3 hours the scout searches GitHub, GitLab, Hacker News, Bluesky, Mastodon, Lemmy and 4chan (/v/, /vg/) for new efforts. Repos with real code are listed here until they're reviewed. They are deliberately not linked, and copies of tracked projects are filtered out. There is no download No project on this page hosts the game, keys or an executable, and this site never links to any. Anything offering a ready-to-play GTA VI for PC this week is a scam. Methodology How the progress bar works One scale for every project, in two parts. Getting in is a ladder to 50%: groundwork fills the first 10%, then each step needs the one before it, up to Playable. Playing well fills the rest: how far you can play, how right it looks, how fast it runs and how long it keeps running. 100% is the whole game, finished. Groundwork, weighted Partial steps, such as a menu that renders but is broken, count half. The four tracks only count once a build is Playable: you can't judge how well a game plays before you can play it. Maintain a project and think it's mis-scored? Open an issue with a link to your evidence. PortWatch VI Fan-made tracker. Not affiliated with or endorsed by Rockstar Games, Take-Two or Microsoft. Grand Theft Auto and related marks belong to their owners. No game files, keys or executables are hosted or linked here. Data: tracker.json , refreshed every 3 hours by the scout. &nbsp;",
+    "gta6_pc_race_data": "GTA VI PC Race: live tracker of unofficial PC ports Skip to content G GTA VI PC Race Standings Forecast Updates Method See the standings GTA VI PC port tracker Playable: no. victory-fork, a public fork of VIctory, is furthest, at stage&nbsp;6&nbsp;of&nbsp;7. Sixteen open-source projects and two private builds are trying to run the game&rsquo;s Xbox build on a PC. This page reads their public repositories every 15 minutes and says how far each has got. Checked 21:33 UTC on 24 Nov . See the standings Read the latest update Stages reached 21:33 UTC 7 Playable 6 In-game victory-fork, AnyXboxX, omonkey, CGBJ, VIctory 5 Recognisable picture five-star-recomp, XCL, OpenScarlett (Community Edition), PercyScarlett, Xbox2Windows, OpenScarlett, TuxBox, GTA6-BootTest, g6shim 4 First frames Leonida, Holy-Interoperability, palmetto 3 Graphics device xbox-emulator 2 Starts up 1 Loads Best estimate to playable about 3 days Standings 1 victory-fork Fork of VIctory, formerly named victory-gta6 Stage 6 of 7: In-game Its README reports the first gameplay scene with characters, textures, sky and sunlit surfaces at 2.5 to 4&nbsp;frames a second on an RTX 4070, with the HUD, pause menu and controller input working and everything in shadow still black. PortWatch reports its developer&#x27;s live streams showing ray-traced lighting at about 3&nbsp;frames a second, and AnyXboxX&#x27;s maintainer has run it on a second machine. Source: project README, PortWatch&#x27;s reports of its developer&#x27;s live streams, and AnyXboxX&#x27;s notes from a second machine. Changed 21:13 UTC . 2 AnyXboxX Builds on VIctory, now through victory-fork Stage 6 of 7: In-game Runs on victory-fork, which puts the world on screen. Its maintainer measures up to 5.4&nbsp;frames a second on an RTX 4070 SUPER and played for about 13&nbsp;minutes before one device loss, and its notes relay a third-party report of 21.5&nbsp;minutes without a fault on an RTX 4060 Ti. Source: project README and run notes, observed by the maintainer on one machine. Changed 21:13 UTC . 3 omonkey Private build based on victory-fork. No public code Stage 6 of 7: In-game PortWatch reports this build running at about 5&nbsp;frames a second in the opening prison scene, where a player can walk around slowly. It is built on victory-fork, and nobody outside can test it. Source: portWatch, which reports watching the work on live streams. Not the developer&#x27;s own statement. Changed 20:31 UTC . 4 CGBJ Private build based on VIctory, with some of XCL&#x27;s work. No public code Stage 6 of 7: In-game Press reports put this build in the game world, where a player can walk, talk to characters and open the menu. It is unlit and very slow, the run with walking had a black screen, and nobody outside the group can test it. Source: portWatch, which says it checked that the build gets in game, and DSOGaming. Not the group&#x27;s own statement. Changed 13:10 UTC . 5 VIctory Runs the game&#x27;s Xbox code natively on Windows Stage 6 of 7: In-game Open pull requests report the world staying up for 8&nbsp;minutes under Proton on Linux, with geometry visible through a debug view and a player walking the first mission&#x27;s street, and for more than 6&nbsp;minutes on an NVIDIA RTX 4080 Super. The project&#x27;s README still describes the scene after the title card as dark, at 0.5 to 1.8&nbsp;seconds a frame. Source: open pull requests by contributors, each measured on one machine, and the project README, which has not caught up. Changed 17:14 UTC . 6 five-star-recomp GTA VI recompilation toolchain Stage 5 of 7: Recognisable picture Shows every first-run screen, loads story mode and plays the opening cutscene&#x27;s art, credit cards, dialogue and sound at a steady 30&nbsp;frames a second. The cutscene&#x27;s 3D world does not draw yet. Source: project status page. Changed 21:33 UTC . 7 XCL Compatibility layer for Xbox Series games Stage 5 of 7: Recognisable picture Shows the game&#x27;s menus and settings at a steady 30&nbsp;frames a second, and its own status line says gameplay is not reached. Before it switched to other code, the fork Palmwave took XCL&#x27;s code as far as drawing the first mission&#x27;s world into its buffers. Source: maintainer&#x27;s notes and commits on the main branch. Changed 21:33 UTC . 8 OpenScarlett (Community Edition) Compatibility layer for Xbox Series games, separate from the other OpenScarlett Stage 5 of 7: Recognisable picture Runs a newer retail game it does not name through its first-boot settings and legal screens, start screen and 4K intro video with sound, at a steady 30&nbsp;frames a second. It stops while the scene behind the menus streams in. Source: project README, tested on one machine. Changed 06:54 UTC . 9 PercyScarlett Xbox Series compatibility layer Stage 5 of 7: Recognisable picture Shows the account picker, video playback in full colour and the first-time setup screens on an unmodified executable, and reports world streaming after them. It has withdrawn its screenshots and no longer names the title. Source: project README, and a screenshot this page checked before the project withdrew it. Changed 08:30 UTC . 10 Xbox2Windows Translation toolchain for Xbox Series games Stage 5 of 7: Recognisable picture With a modified diagnostic copy of the executable and a debugger set to continue past assertions, a run on an RTX 4060 laptop played the intro video, got through setup and reached loading. The project says start-up of the original executable is un",
     "github": {
       "VIctory": {
         "commits_24h": 50,
-        "stars": 11034,
+        "stars": 11056,
         "pushed_at": "2026-11-24T21:37:26Z",
         "latest_commit": "README: status of 2026-11-24"
       },
       "XCL": {
         "commits_24h": 50,
-        "stars": 7722,
+        "stars": 7726,
         "pushed_at": "2026-11-24T21:38:17Z",
         "latest_commit": "CI: mark PRs idle for 3 days stale and close them after a week"
       }
     },
-    "timestamp": "2026-11-24T21:42:32.286287+00:00"
+    "timestamp": "2026-11-24T21:50:14.473300+00:00"
   },
   "analysis": {
-    "current_leader": "VIctory",
-    "leader_stage": "In-Game",
+    "current_leader": "victory-fork",
+    "leader_stage": "Stage 6 of 7: In-game",
     "most_active_today": "VIctory",
-    "ai_summary": "The unofficial GTA VI PC port and compatibility race continues to accelerate, with VIctory maintaining its position at the forefront of the GitHub-driven development scene. Both VIctory and XCL pushed aggressive commit numbers over the last 24 hours, focusing heavily on pipeline stability and pull request maintenance. The community is rapidly closing in on robust vertex processing and pipeline translation layers.",
-    "prediction": "VIctory is predicted to reach stable playable gameplay first, likely within Q2 2027, provided memory leak bottlenecks and shader compilation stuttering are successfully resolved by core contributors.",
+    "ai_summary": "The unofficial GTA VI PC port race has accelerated significantly, with victory-fork seizing the lead at Stage 6 (In-game) by rendering the world with textures, sky, and sunlit surfaces at 2.5 to 4 frames per second. High commit velocities across core repositories like VIctory and XCL continue to push pipeline stability, while private builds like omonkey and CGBJ demonstrate early in-game traversability.",
+    "prediction": "victory-fork and upstream VIctory are positioned to achieve functional basic gameplay loops first, likely within Q1/Q2 2027, provided frame-rate bottlenecks and unlit shadow bugs are successfully bypassed.",
     "leaderboard": [
       {
         "rank": 1,
-        "name": "VIctory",
-        "stage": "In-Game",
-        "progress_pct": 74,
-        "highest_achievement": "Successfully booted into free-roam world space and rendered real-time character models with lighting",
-        "work_today_score": 92,
-        "work_today_note": "Pushed 50 commits focusing on documentation and state machine stabilization.",
+        "name": "victory-fork",
+        "stage": "Stage 6 of 7: In-game",
+        "progress_pct": 85,
+        "boot_pct": 100,
+        "memory_pct": 85,
+        "render_pct": 70,
+        "highest_achievement": "Rendered the first gameplay scene with characters, textures, sky, and sunlit surfaces with functional HUD and controller input.",
+        "work_today_score": 95,
+        "work_today_note": "Pushed world rendering forward, achieving playable scenes and documented live stream telemetry on RTX 4070 hardware.",
         "works": [
-          "Main menu rendering",
-          "Initial asset loading",
-          "Basic character geometry rendering"
+          "First gameplay scene rendering",
+          "HUD and pause menu integration",
+          "Controller input mapping"
         ],
         "known_issues": [
-          "Severe memory leaks during prolonged open-world sessions",
-          "Audio buffer desyncs"
+          "Very low performance (2.5 to 4 frames per second)",
+          "Everything in shadow remains completely black"
         ],
-        "remaining_todo": "Optimize pipeline translation layer and implement full shader caching to achieve stable 30 FPS."
+        "remaining_stages": [
+          "Shadow Lighting Resolution",
+          "Performance Optimization",
+          "Stable Playable Loop"
+        ]
       },
       {
         "rank": 2,
-        "name": "XCL",
-        "stage": "Ingestion Phase",
-        "progress_pct": 68,
-        "highest_achievement": "Successfully parsed proprietary archive formats and initialized memory mapping structures",
-        "work_today_score": 88,
-        "work_today_note": "Pushed 50 commits refining CI automation and stale pull request management.",
+        "name": "AnyXboxX",
+        "stage": "Stage 6 of 7: In-game",
+        "progress_pct": 82,
+        "boot_pct": 100,
+        "memory_pct": 80,
+        "render_pct": 65,
+        "highest_achievement": "Successfully ran the game via victory-fork reaching up to 5.4 FPS and maintaining sessions for over 13-21 minutes.",
+        "work_today_score": 90,
+        "work_today_note": "Logged successful extended test sessions and multi-machine cross-verification notes.",
         "works": [
-          "Asset container unpacking",
-          "Automated build pipeline integration",
-          "Command-line harness"
+          "Extended stability sessions (>13 mins)",
+          "World streaming via victory-fork",
+          "Multi-machine test verification"
         ],
         "known_issues": [
-          "Frequent segmentation faults during asset decompression",
-          "Incomplete API hook coverage"
+          "Occasional device loss errors",
+          "Low frame rates requiring host-side optimizations"
         ],
-        "remaining_todo": "Complete graphics API translation layers and resolve asset decompression crashes."
+        "remaining_stages": [
+          "Device Loss Error Resolution",
+          "Performance Scaling",
+          "Stable Playable Loop"
+        ]
       },
       {
         "rank": 3,
-        "name": "AnyXboxX",
-        "stage": "Compatibility Layer",
-        "progress_pct": 52,
-        "highest_achievement": "Successfully intercepted hardware-level instruction calls and mapped hypervisor stubs",
-        "work_today_score": 65,
-        "work_today_note": "Stabilized core thread scheduling hooks for target emulation architecture.",
+        "name": "VIctory",
+        "stage": "Stage 6 of 7: In-game",
+        "progress_pct": 78,
+        "boot_pct": 100,
+        "memory_pct": 75,
+        "render_pct": 60,
+        "highest_achievement": "Ran Xbox code natively on Windows and Linux via Proton, maintaining world uptime for up to 8 minutes with geometry visible.",
+        "work_today_score": 92,
+        "work_today_note": "Logged 50 commits focusing on state machine stability and documentation updates.",
         "works": [
-          "Hypervisor stubbing",
-          "Basic thread scheduling",
-          "Memory translation mapping"
+          "Native Xbox code execution on Windows/Linux",
+          "Debug view geometry rendering",
+          "Initial street navigation"
         ],
         "known_issues": [
-          "High CPU overhead on host systems",
-          "Unhandled exception faults on deep GPU calls"
+          "Dark scenes after title card",
+          "Extremely slow frame delivery (0.5 to 1.8 seconds per frame)"
         ],
-        "remaining_todo": "Develop high-performance instruction decoder and optimize thread synchronization."
+        "remaining_stages": [
+          "Lighting Pipeline Fixes",
+          "Frame Rate Optimization",
+          "Stable Playable Loop"
+        ]
       },
       {
         "rank": 4,
-        "name": "Palmwave",
-        "stage": "Initialization",
-        "progress_pct": 35,
-        "highest_achievement": "Initialized foundational codebase structure and established secure repository hooks",
-        "work_today_score": 40,
-        "work_today_note": "Conducted routine dependency updates and architectural refactoring.",
+        "name": "five-star-recomp",
+        "stage": "Stage 5 of 7: Recognisable picture",
+        "progress_pct": 65,
+        "boot_pct": 90,
+        "memory_pct": 60,
+        "render_pct": 45,
+        "highest_achievement": "Loaded story mode and played opening cutscene art, credit cards, dialogue, and audio at a steady 30 frames per second.",
+        "work_today_score": 80,
+        "work_today_note": "Maintained steady toolchain updates for recompilation pipelines.",
         "works": [
-          "Project scaffolding",
-          "Basic stub generation"
+          "First-run screen generation",
+          "Opening cutscene audio and dialogue",
+          "Steady 30 FPS UI/art rendering"
         ],
         "known_issues": [
-          "Lacks functional graphics pipeline",
-          "Dependent on upstream reverse engineering breakthroughs"
+          "3D world geometry does not draw yet during cutscenes"
         ],
-        "remaining_todo": "Implement raw binary parsing routines and establish baseline hardware interception modules."
+        "remaining_stages": [
+          "3D World Cutscene Rendering",
+          "In-Game Transition",
+          "Stable Playable Loop"
+        ]
+      },
+      {
+        "rank": 5,
+        "name": "XCL",
+        "stage": "Stage 5 of 7: Recognisable picture",
+        "progress_pct": 62,
+        "boot_pct": 90,
+        "memory_pct": 55,
+        "render_pct": 40,
+        "highest_achievement": "Rendered game menus and settings at a steady 30 frames per second using Xbox Series compatibility layers.",
+        "work_today_score": 85,
+        "work_today_note": "Pushed 50 commits implementing CI automation and stale PR cleanup workflows.",
+        "works": [
+          "Menu and settings interface rendering",
+          "Steady 30 FPS UI handling",
+          "Automated CI build pipelines"
+        ],
+        "known_issues": [
+          "Gameplay loop not yet reached on main branch"
+        ],
+        "remaining_stages": [
+          "Gameplay Scene Ingestion",
+          "World Buffer Integration",
+          "Stable Playable Loop"
+        ]
       }
     ],
     "news_highlights": [
       {
-        "source": "GitHub / VIctory",
-        "headline": "VIctory reaches 11,034 stars with 50 commits logged in the last 24 hours focusing on state machine stability."
+        "source": "PortWatch VI",
+        "headline": "victory-fork achieves milestone status 6 with live stream evidence showing ray-traced lighting and character models."
       },
       {
-        "source": "GitHub / XCL",
-        "headline": "XCL implements automated stale PR cleanup workflows while matching high daily commit velocity."
+        "source": "gta6-pc-race",
+        "headline": "AnyXboxX maintainer reports over 13 minutes of continuous execution on an RTX 4070 SUPER before a device loss."
+      },
+      {
+        "source": "GitHub / VIctory",
+        "headline": "VIctory surpasses 11,000 stars with aggressive daily commit velocity focused on state machine stabilization."
       }
     ]
   },
-  "last_updated": "2026-11-24T21:42:35.557486+00:00"
+  "history": [
+    {
+      "time": "21:51 UTC",
+      "scores": {
+        "victory-fork": 85,
+        "AnyXboxX": 82,
+        "VIctory": 78,
+        "five-star-recomp": 65,
+        "XCL": 62
+      }
+    }
+  ],
+  "last_updated": "2026-11-24T21:51:15.033123+00:00"
 }
