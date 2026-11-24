@@ -44,9 +44,10 @@
     .rank-badge { font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; background: var(--surface-2); color: var(--blue); }
     .rank-1 .rank-badge { background: rgba(16,185,129,0.18); color: var(--emerald); }
     .stage-pill { font-size: 0.75rem; color: var(--amber); background: rgba(245,158,11,0.12); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
-    .bar-bg { background: #1e2638; height: 10px; border-radius: 999px; overflow: hidden; }
+    .bar-bg { background: #1e2638; height: 12px; border-radius: 999px; overflow: hidden; margin-top: 4px; }
     .bar-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--emerald)); border-radius: 999px; }
     .bar-meta { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); margin-top: 5px; }
+    .achievement-pill { background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.3); padding: 8px 12px; border-radius: 8px; font-size: 0.82rem; color: #e2e8f0; }
     .today-pill { background: var(--surface-2); padding: 8px 12px; border-radius: 8px; font-size: 0.82rem; color: #e2e8f0; }
     .lists-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .mini-list h4 { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
@@ -61,7 +62,7 @@
 <body>
   <header>
     <div>
-      <h1>GTA VI PC Port Intelligence</h1>
+      <h1>GTA VI Port Intelligence</h1>
       <div class="sub">Tracking PortWatch VI, gta6-pc-race, GitHub daily work & community updates</div>
     </div>
     <div class="status-pill" id="sync-status">Syncing live data...</div>
@@ -195,10 +196,11 @@
             <div>
               <div class="bar-bg"><div class="bar-fill" style="width:${p.progress_pct}%"></div></div>
               <div class="bar-meta">
-                <span><strong>${p.progress_pct}%</strong> Complete</span>
-                <span><strong>${100 - p.progress_pct}%</strong> Remaining</span>
+                <span><strong>Done:</strong> ${p.progress_pct}%</span>
+                <span><strong>Remaining:</strong> ${100 - p.progress_pct}%</span>
               </div>
             </div>
+            <div class="achievement-pill">🏆 <strong>Highest Achievement:</strong> ${p.highest_achievement || 'Tracking progress...'}</div>
             <div class="today-pill"><strong>📅 Work Today:</strong> ${p.work_today_note}</div>
             <div class="lists-grid">
               <div class="mini-list">
