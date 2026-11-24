@@ -141,11 +141,11 @@
 
       const lineCtx = document.getElementById('lineChart').getContext('2d');
       if (lineChartInstance) lineChartInstance.destroy();
-      const labels = history.map(h => h.time);
+      const labels = (history || []).map(h => h.time);
       const colors = ['#10b981', '#38bdf8', '#a78bfa', '#f59e0b', '#f472b6'];
       const datasets = names.map((name, idx) => ({
         label: name,
-        data: history.map(h => (h.scores && h.scores[name] !== undefined) ? h.scores[name] : null),
+        data: (history || []).map(h => (h.scores && h.scores[name] !== undefined) ? h.scores[name] : null),
         borderColor: colors[idx % colors.length],
         tension: 0.3,
         fill: false
@@ -172,7 +172,7 @@
         const data = await res.json();
         const ai = data.analysis;
 
-        const minsAgo = Math.max(0, Math.floor((Date.now() - new Date(data.updated_at).getTime()) / 60000));
+        const minsAgo = Math.max(0, Math.floor((Date.now() - new Date(data.last_updated).getTime()) / 60000));
         document.getElementById('sync-status').textContent = `● Live • Synced ${minsAgo}m ago`;
 
         document.getElementById('kpi-leader').textContent = ai.current_leader;
